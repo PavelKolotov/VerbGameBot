@@ -1,7 +1,7 @@
 # VerbGameBot
 
 
-Данный проект представляет собой чат [бота телеграм](@VerbGameDVMN_bot) и бота [в группе Вконтакте](@public221583857) интегрированных с API [DialogFlow](https://dialogflow.cloud.google.com/). 
+Данный проект представляет собой чат [бота телеграм](https://t.me/VerbGameDVMN_bot) и бота [в группе Вконтакте](https://vk.com/public221583857) интегрированных с API [DialogFlow](https://dialogflow.cloud.google.com/). 
 С помощью DialogFlow можно обучить ботов и они будут закрывать все типичные вопросы, а вот что-то посложнее – перенаправлять на операторов.
 
 Пример:
