@@ -23,6 +23,7 @@ def detect_intent_texts(project_id, session_id, text, language_code):
 
     return response.query_result.fulfillment_text
 
+
 @bot.message_handler(commands=['start'])
 def handle_start(message):
     bot.reply_to(message, f'Здравствуйте {message.from_user.first_name}!')

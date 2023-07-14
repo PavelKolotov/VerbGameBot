@@ -1,7 +1,7 @@
 from google.cloud import api_keys_v2
 from google.cloud.api_keys_v2 import Key
-from config import PROJECT_ID, SUFFIX
 
+from config import PROJECT_ID, SUFFIX
 
 
 def create_api_key(project_id: str, suffix: str) -> Key:
