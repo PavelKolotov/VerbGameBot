@@ -2,7 +2,7 @@ import argparse
 import json
 
 from google.cloud import dialogflow
-from bot import project_id
+from config import PROJECT_ID
 
 
 def create_intent(project_id):
@@ -43,5 +43,4 @@ def create_intent(project_id):
 
 
 if __name__ == '__main__':
-
-    create_intent(project_id)
+    create_intent(PROJECT_ID)
