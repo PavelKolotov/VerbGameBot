@@ -4,9 +4,10 @@ import telebot
 from google.cloud import dialogflow_v2beta1 as dialogflow
 
 from config import TG_BOT_API_KEY, PROJECT_ID, SESSION_ID, LANGUAGE_CODE
+from telegram_handler import TelegramLoggingHandler
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('TG_BOT')
 
 bot = telebot.TeleBot(TG_BOT_API_KEY)
 
@@ -38,5 +39,10 @@ def handle_message(message):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)s | %(name)s | %(message)s')
+    telegram_log_handler = TelegramLoggingHandler(TG_BOT_API_KEY, SESSION_ID)
+    logging.basicConfig(
+        handlers=[telegram_log_handler],
+        level=logging.ERROR,
+        format='%(asctime)s | %(levelname)s | %(name)s | %(message)s'
+    )
     bot.polling()

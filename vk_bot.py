@@ -5,10 +5,11 @@ import vk_api as vk
 from vk_api.longpoll import VkLongPoll, VkEventType
 from google.cloud import dialogflow_v2beta1 as dialogflow
 
-from config import VK_API_KEY, PROJECT_ID, SESSION_ID, LANGUAGE_CODE
+from config import VK_API_KEY, PROJECT_ID, SESSION_ID, LANGUAGE_CODE, TG_BOT_API_KEY
+from telegram_handler import TelegramLoggingHandler
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('VK_BOT')
 
 
 def detect_intent_texts(project_id, session_id, text, language_code):
@@ -53,5 +54,10 @@ def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)s | %(name)s | %(message)s')
+    telegram_log_handler = TelegramLoggingHandler(TG_BOT_API_KEY, SESSION_ID)
+    logging.basicConfig(
+        handlers=[telegram_log_handler],
+        level=logging.ERROR,
+        format='%(asctime)s | %(levelname)s | %(name)s | %(message)s'
+    )
     main()
