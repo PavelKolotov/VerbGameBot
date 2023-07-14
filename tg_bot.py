@@ -1,10 +1,10 @@
-import telebot
 import logging
 
+import telebot
 from google.cloud import dialogflow_v2beta1 as dialogflow
-from telegram_handler import TelegramLoggingHandler
 
 from config import TG_BOT_API_KEY, PROJECT_ID, SESSION_ID, LANGUAGE_CODE
+from telegram_handler import TelegramLoggingHandler
 
 
 logger = logging.getLogger(__name__)
