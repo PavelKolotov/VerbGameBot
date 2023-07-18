@@ -14,10 +14,11 @@ def create_intent(project_id, json_path):
     with open(json_path, 'r') as file:
         questions = json.load(file)
 
-    for question in questions:
-        display_name = question
-        training_phrases_parts = questions[display_name]['questions']
-        message_texts = [questions[display_name]['answer']]
+    for name, value in questions.items():
+        display_name = name
+        training_phrases_parts = value['questions']
+        message_texts = [value['answer']]
+
         training_phrases = create_training_phrases(training_phrases_parts)
         message = create_message(message_texts)
 
