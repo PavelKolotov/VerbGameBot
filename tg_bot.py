@@ -14,12 +14,12 @@ if __name__ == '__main__':
 
     env = Env()
     env.read_env()
-    TG_BOT_API_KEY = env.str('TG_BOT_API_KEY')
-    SESSION_ID = env.int('SESSION_ID')
-    PROJECT_ID = env.str('PROJECT_ID')
-    LANGUAGE_CODE = env.str('LANGUAGE_CODE')
-    bot = telebot.TeleBot(TG_BOT_API_KEY)
-    telegram_log_handler = TelegramLoggingHandler(TG_BOT_API_KEY, SESSION_ID)
+    tg_bot_api_key = env.str('TG_BOT_API_KEY')
+    session_id = f'tg-{env.int("TG_ID")}'
+    project_id = env.str('PROJECT_ID')
+    language_code = env.str('LANGUAGE_CODE')
+    bot = telebot.TeleBot(tg_bot_api_key)
+    telegram_log_handler = TelegramLoggingHandler(tg_bot_api_key, session_id)
     logging.basicConfig(
         handlers=[telegram_log_handler],
         level=logging.ERROR,
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     @bot.message_handler()
     def handle_message(message):
         try:
-            answer, fallback = detect_intent_texts(PROJECT_ID, SESSION_ID, message.text, LANGUAGE_CODE)
+            answer, fallback = detect_intent_texts(project_id, session_id, message.text, language_code)
             bot.send_message(message.chat.id, answer)
         except Exception as e:
             logger.error(e)

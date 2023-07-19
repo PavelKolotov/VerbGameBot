@@ -28,12 +28,13 @@ def main():
     env = Env()
     env.read_env()
     project_id = env.str('PROJECT_ID')
-    session_id = env.int('SESSION_ID')
+    session_id = f'vk-{env.str("VK_ID")}'
+    tg_id = env.int('TG_ID')
     language_code = env.str('LANGUAGE_CODE')
     tg_bot_api_key = env.str('TG_BOT_API_KEY')
     vk_api_key = env.str('VK_API_KEY')
 
-    telegram_log_handler = TelegramLoggingHandler(tg_bot_api_key, session_id)
+    telegram_log_handler = TelegramLoggingHandler(tg_bot_api_key, tg_id)
     logging.basicConfig(
         handlers=[telegram_log_handler],
         level=logging.ERROR,
