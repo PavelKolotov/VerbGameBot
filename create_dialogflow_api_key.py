@@ -1,7 +1,7 @@
+from environs import Env
+
 from google.cloud import api_keys_v2
 from google.cloud.api_keys_v2 import Key
-
-from config import PROJECT_ID, SUFFIX
 
 
 def create_api_key(project_id: str, suffix: str) -> Key:
@@ -25,5 +25,10 @@ def create_api_key(project_id: str, suffix: str) -> Key:
 
 
 if __name__ == '__main__':
-    create_api_key(PROJECT_ID, SUFFIX)
 
+    env = Env()
+    env.read_env()
+    PROJECT_ID = env.str('PROJECT_ID')
+    SUFFIX = env.str('SUFFIX')
+
+    create_api_key(PROJECT_ID, SUFFIX)

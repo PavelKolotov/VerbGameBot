@@ -2,9 +2,9 @@ import argparse
 import json
 import logging
 
-from google.cloud import dialogflow
+from environs import Env
 
-from config import PROJECT_ID
+from google.cloud import dialogflow
 
 
 def create_intent(project_id, json_path):
@@ -23,7 +23,9 @@ def create_intent(project_id, json_path):
         message = create_message(message_texts)
 
         intent = dialogflow.Intent(
-            display_name=display_name, training_phrases=training_phrases, messages=[message]
+            display_name=display_name,
+            training_phrases=training_phrases,
+            messages=[message]
         )
 
         try:
@@ -51,6 +53,9 @@ def create_message(message_texts):
 
 
 if __name__ == '__main__':
+    env = Env()
+    env.read_env()
+    PROJECT_ID = env.str('PROJECT_ID')
     parser = argparse.ArgumentParser()
     parser.add_argument('-j', '--json_path', help='Path to the JSON file with questions',
                         default='questions.json')
