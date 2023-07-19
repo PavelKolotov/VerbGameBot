@@ -47,7 +47,8 @@ $ pip install -r requirements.txt
 - `GOOGLE_APPLICATION_CREDENTIALS=/путь/до/credentials.json` -  файл с ключами от вашего Google-аккаунта, credentials.json который вы получили через [Консольную утилиту gcloud](https://cloud.google.com/dialogflow/es/docs/quick/setup#sdk)
 - `PROJECT_ID=VerbGame...` - ProjectID, который вы получили, когда создавали проект в [DialogFlow](https://dialogflow.cloud.google.com/)
 - `SUFFIX=VerbGame...` - название проекта
-- `SESSION_ID=9331...` - id пользователя из Telegram
+- `TG_ID=9331...` - id пользователя из Telegram
+- `VK_ID=id31...` - id пользователя из VK
 - `LANGUAGE_CODE=RU` - язык на который реагирует [DialogFlow](https://dialogflow.cloud.google.com/), в нашем случае русский
 - `VK_API_KEY=vk1.a.cTJXQeleFA2_tWhIfWTa...` - API ключ, который вы получаете при создании группы в ВКонтакте
 
