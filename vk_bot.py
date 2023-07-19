@@ -24,14 +24,34 @@ def send_message(user_id, message, vk_api):
         logger.error(e)
 
 
-def main(vk_api_key, project_id, session_id, language_code):
+def main():
+    env = Env()
+    env.read_env()
+    project_id = env.str('PROJECT_ID')
+    session_id = env.int('SESSION_ID')
+    language_code = env.str('LANGUAGE_CODE')
+    tg_bot_api_key = env.str('TG_BOT_API_KEY')
+    vk_api_key = env.str('VK_API_KEY')
+
+    telegram_log_handler = TelegramLoggingHandler(tg_bot_api_key, session_id)
+    logging.basicConfig(
+        handlers=[telegram_log_handler],
+        level=logging.ERROR,
+        format='%(asctime)s | %(levelname)s | %(name)s | %(message)s'
+    )
+
     try:
         vk_session = vk.VkApi(token=vk_api_key)
         vk_api = vk_session.get_api()
         longpoll = VkLongPoll(vk_session)
         for event in longpoll.listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                text_answer, fallback = detect_intent_texts(project_id, session_id, event.text, language_code)
+                text_answer, fallback = detect_intent_texts(
+                    project_id,
+                    session_id,
+                    event.text,
+                    language_code
+                )
                 if fallback:
                     logger.info('Unclear question')
                 else:
@@ -41,19 +61,5 @@ def main(vk_api_key, project_id, session_id, language_code):
 
 
 if __name__ == "__main__":
-    env = Env()
-    env.read_env()
-    PROJECT_ID = env.str('PROJECT_ID')
-    SESSION_ID = env.int('SESSION_ID')
-    LANGUAGE_CODE = env.str('LANGUAGE_CODE')
-    TG_BOT_API_KEY = env.str('TG_BOT_API_KEY')
-    VK_API_KEY = env.str('VK_API_KEY')
 
-    telegram_log_handler = TelegramLoggingHandler(TG_BOT_API_KEY, SESSION_ID)
-    logging.basicConfig(
-        handlers=[telegram_log_handler],
-        level=logging.ERROR,
-        format='%(asctime)s | %(levelname)s | %(name)s | %(message)s'
-    )
-
-    main(VK_API_KEY, PROJECT_ID, SESSION_ID, LANGUAGE_CODE)
+    main()
