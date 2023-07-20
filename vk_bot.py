@@ -14,21 +14,17 @@ logger = logging.getLogger('VK_BOT')
 
 
 def send_message(user_id, message, vk_api):
-    try:
-        vk_api.messages.send(
-            user_id=user_id,
-            message=message,
-            random_id=random.randint(1, 1000)
-        )
-    except Exception as e:
-        logger.error(e)
+    vk_api.messages.send(
+        user_id=user_id,
+        message=message,
+        random_id=random.randint(1, 1000)
+    )
 
 
 def main():
     env = Env()
     env.read_env()
     project_id = env.str('PROJECT_ID')
-    session_id = f'vk-{env.str("VK_ID")}'
     tg_id = env.int('TG_ID')
     language_code = env.str('LANGUAGE_CODE')
     tg_bot_api_key = env.str('TG_BOT_API_KEY')
@@ -47,6 +43,7 @@ def main():
         longpoll = VkLongPoll(vk_session)
         for event in longpoll.listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+                session_id = f'vk-{event.user_id}'
                 text_answer, fallback = detect_intent_texts(
                     project_id,
                     session_id,

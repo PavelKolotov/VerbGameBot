@@ -15,7 +15,6 @@ if __name__ == '__main__':
     env = Env()
     env.read_env()
     tg_bot_api_key = env.str('TG_BOT_API_KEY')
-    session_id = f'tg-{env.int("TG_ID")}'
     project_id = env.str('PROJECT_ID')
     language_code = env.str('LANGUAGE_CODE')
     bot = telebot.TeleBot(tg_bot_api_key)
@@ -35,6 +34,7 @@ if __name__ == '__main__':
     @bot.message_handler()
     def handle_message(message):
         try:
+            session_id = f'tg-{message.chat.id}'
             answer, fallback = detect_intent_texts(project_id, session_id, message.text, language_code)
             bot.send_message(message.chat.id, answer)
         except Exception as e:
