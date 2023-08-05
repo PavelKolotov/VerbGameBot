@@ -10,8 +10,17 @@ from dialogflow_api import detect_intent_texts
 logger = logging.getLogger('TG_BOT')
 
 
-if __name__ == '__main__':
+def handle_start(bot, message):
+    bot.reply_to(message, f'Здравствуйте {message.from_user.first_name}!')
 
+
+def handle_message(bot, message, project_id, language_code):
+    session_id = f'tg-{message.chat.id}'
+    answer, fallback = detect_intent_texts(project_id, session_id, message.text, language_code)
+    bot.send_message(message.chat.id, answer)
+
+
+def main():
     env = Env()
     env.read_env()
     tg_bot_api_key = env.str('TG_BOT_API_KEY')
@@ -25,21 +34,16 @@ if __name__ == '__main__':
         level=logging.ERROR,
         format='%(asctime)s | %(levelname)s | %(name)s | %(message)s'
     )
-
-
-    @bot.message_handler(commands=['start'])
-    def handle_start(message):
-        bot.reply_to(message, f'Здравствуйте {message.from_user.first_name}!')
-
-
-    @bot.message_handler()
-    def handle_message(message):
-        try:
-            session_id = f'tg-{message.chat.id}'
-            answer, fallback = detect_intent_texts(project_id, session_id, message.text, language_code)
-            bot.send_message(message.chat.id, answer)
-        except Exception as e:
-            logger.error(e)
-
+    start_command_handler = lambda message: handle_start(bot, message)
+    start_message_handler = lambda message: handle_message(bot, message, project_id, language_code)
+    try:
+        bot.register_message_handler(start_command_handler, commands=['start'])
+        bot.register_message_handler(start_message_handler)
+    except Exception as e:
+        logger.error(e)
 
     bot.polling()
+
+
+if __name__ == '__main__':
+    main()
